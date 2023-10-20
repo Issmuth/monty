@@ -30,12 +30,10 @@ char **tokenize(char *opcom)
 	}
 	args = malloc(sizeof(char *) * (i + 1));
 	if (args == NULL)
-	{	
+	{
 		fprintf(stderr, "Error: malloc failed\n");
-		free(dupcom);
 		exit(EXIT_FAILURE);
 	}
-
 	token = strtok(dupcom, delim);
 	while (token)
 	{
@@ -43,7 +41,6 @@ char **tokenize(char *opcom)
 		if (args[j] == NULL)
 		{
 			fprintf(stderr, "Error: malloc failed\n");
-			free(dupcom);
 			exit(EXIT_FAILURE);
 		}
 		strcpy(args[j], token);
@@ -79,16 +76,13 @@ void opcheck(char *opcom, unsigned int line_c, stack_t **top_t)
 	args = tokenize(opcom);
 	if (args == NULL || args[0] == NULL)
 		return;
-
 	if (args[0][0] == '#')
 		return;
-
 	if (!(strcmp("push", args[0])))
 	{
 		push(top_t, args[1], line_c);
 		return;
 	}
-
 	for (i = 0; list[i].opcode; i++)
 	{
 		if (!(strcmp(list[i].opcode, args[0])))
