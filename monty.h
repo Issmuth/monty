@@ -52,7 +52,7 @@ void sub(stack_t **stack, unsigned int line_number);
 void div_s(stack_t **stack, unsigned int line_number);
 void mul_s(stack_t **stack, unsigned int line_number);
 void mod_s(stack_t **stack, unsigned int line_number);
-void opcheck(char *opcom, size_t line_c, stack_t **top_t);
+void opcheck(char *opcom, unsigned int line_c, stack_t **top_t);
 int all_digit(char *num);
 
 #endif

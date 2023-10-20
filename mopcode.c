@@ -55,7 +55,7 @@ char **tokenize(char *opcom)
  * @line_c: line count
  */
 
-void opcheck(char *opcom, size_t line_c, stack_t **top_t)
+void opcheck(char *opcom, unsigned int line_c, stack_t **top_t)
 {
 	int i = 0;
 	char **args = NULL;
@@ -89,4 +89,6 @@ void opcheck(char *opcom, size_t line_c, stack_t **top_t)
 			return;
 		}
 	}
+	fprintf(stderr, "L%u: unknown instruction %s\n", line_c, args[0]);
+	exit(EXIT_FAILURE);
 }
