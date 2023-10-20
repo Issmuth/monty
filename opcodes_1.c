@@ -23,7 +23,8 @@ void push(stack_t **top_t, char *num, unsigned int line_c)
 	new_stack = malloc(sizeof(stack_t));
 	if (!new_stack)
 	{
-		write(STDERR_FILENO, "Error: malloc failed\n", 21);
+		fprintf(stderr, "Error: malloc failed\n");
+		free(num);
 		exit(EXIT_FAILURE);
 	}
 	n = atoi(num);

@@ -17,7 +17,8 @@ char **tokenize(char *opcom)
 	dupcom = malloc(sizeof(char) * (strlen(opcom) + 1));
 	if (dupcom == NULL)
 	{
-		write(STDERR_FILENO, "Error: malloc failed\n", 21);
+		fprintf(stderr, "Error: malloc failed\n");
+		free(opcom);
 		exit(EXIT_FAILURE);
 	}
 	strcpy(dupcom, opcom);
@@ -29,8 +30,9 @@ char **tokenize(char *opcom)
 	}
 	args = malloc(sizeof(char *) * (i + 1));
 	if (args == NULL)
-	{
-		write(STDERR_FILENO, "Error: malloc failed\n", 21);
+	{	
+		fprintf(stderr, "Error: malloc failed\n");
+		free(dupcom);
 		exit(EXIT_FAILURE);
 	}
 
@@ -38,6 +40,12 @@ char **tokenize(char *opcom)
 	while (token)
 	{
 		args[j] = malloc(sizeof(char) * (strlen(token) + 1));
+		if (args[j] == NULL)
+		{
+			fprintf(stderr, "Error: malloc failed\n");
+			free(dupcom);
+			exit(EXIT_FAILURE);
+		}
 		strcpy(args[j], token);
 		token = strtok(NULL, delim);
 		j++;
@@ -90,5 +98,6 @@ void opcheck(char *opcom, unsigned int line_c, stack_t **top_t)
 		}
 	}
 	fprintf(stderr, "L%u: unknown instruction %s\n", line_c, args[0]);
+	free(opcom);
 	exit(EXIT_FAILURE);
 }
