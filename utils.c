@@ -14,6 +14,9 @@ int all_digit(char *num)
 
 	for (i = 0; num[i]; i++)
 	{
+		if (num[0] == '-')
+			continue;
+
 		if (!(isdigit(num[i])))
 			return (0);
 	}

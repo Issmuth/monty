@@ -1,6 +1,3 @@
-push 1$
-push 2$
-#push 10$
-push 3$
-add$
+push 1
 pall
+push a

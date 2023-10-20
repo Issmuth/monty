@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		write(STDERR_FILENO, "USAGE: monty file\n", 17);
+		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
 
