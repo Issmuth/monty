@@ -1,3 +1,2 @@
-push 1
-apall
-push a
+push -1024
+push 123a
