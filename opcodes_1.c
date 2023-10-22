@@ -9,14 +9,15 @@
  * Return: 0 if successful 1 otherwise
  */
 
-void push(stack_t **top_t, char *num, unsigned int line_c)
+void push(stack_t **top_t, unsigned int line_c)
 {
 	stack_t *new_stack;
 	int n;
 
-	if (!num || !all_digit(num))
+	if (!(montinf.args) || !(montinf.args[1]) || !all_digit(montinf.args[1]))
 	{
 		fprintf(stderr, "L%u: usage: push integer\n", line_c);
+		clear_all(top_t);
 		exit(EXIT_FAILURE);
 	}
 
@@ -24,10 +25,10 @@ void push(stack_t **top_t, char *num, unsigned int line_c)
 	if (!new_stack)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
-		free(num);
+		clear_all(top_t);
 		exit(EXIT_FAILURE);
 	}
-	n = atoi(num);
+	n = atoi(montinf.args[1]);
 	new_stack->n = n;
 	new_stack->prev = NULL;
 	if (!top_t || !(*top_t))
@@ -73,6 +74,7 @@ void pint(stack_t **stack, unsigned int line_number)
 	if (stack == NULL || *stack == NULL)
 	{
 		fprintf(stderr, "L%u: can't pint, stack empty\n", line_number);
+		clear_all(stack);
 		exit(EXIT_FAILURE);
 	} else
 		printf("%d\n", (*stack)->n);
@@ -91,6 +93,7 @@ void pop(stack_t **stack, unsigned int line_number)
 	if (stack == NULL || *stack == NULL)
 	{
 		fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
+		clear_all(stack);
 		exit(EXIT_FAILURE);
 	}
 
@@ -114,6 +117,7 @@ void swap(stack_t **stack, unsigned int line_number)
 	if (!stack || !(*stack) || !((*stack)->next))
 	{
 		fprintf(stderr, "L%u: can't swap, stack too short\n", line_number);
+		clear_all(stack);
 		exit(EXIT_FAILURE);
 	}
 
@@ -121,4 +125,3 @@ void swap(stack_t **stack, unsigned int line_number)
 	(*stack)->n = (*stack)->next->n;
 	(*stack)->next->n = temp;
 }
-

@@ -38,11 +38,29 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-extern stack_t *top_t;
+/**
+ * struct monty_inf - info about the script
+ * @file: opened script file
+ * @command: line of command
+ * @args: command list
+ * @state: queue or stack determiner
+ *
+ * Description: contains the runtime information of the
+ * script
+ */
+typedef struct monty_inf
+{
+	FILE *file;
+	char *opcom;
+	char **args;
+	int state;
+} monfy;
 
-void push(stack_t **top_t, char *num, unsigned int line_c);
+extern monfy montinf;
+
+void push(stack_t **top_t, unsigned int line_c);
 void pall(stack_t **stack, unsigned int line_number);
-char **tokenize(char *opcom);
+char **tokenize(char *opcom, stack_t **stack);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
@@ -52,7 +70,14 @@ void sub(stack_t **stack, unsigned int line_number);
 void div_s(stack_t **stack, unsigned int line_number);
 void mul_s(stack_t **stack, unsigned int line_number);
 void mod_s(stack_t **stack, unsigned int line_number);
+void pchar(stack_t **stack, unsigned int line_number);
+void pstr(stack_t **stack, unsigned int line_number);
+void rotl(stack_t **stack, unsigned int line_number);
+void rotr(stack_t **stack, unsigned int line_number);
 void opcheck(char *opcom, unsigned int line_c, stack_t **top_t);
+void free_stack(stack_t **stack);
+void free_vec(char **vector);
 int all_digit(char *num);
+void clear_all(stack_t **stack);
 
 #endif

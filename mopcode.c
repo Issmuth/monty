@@ -8,7 +8,7 @@
  * tokenized command
  */
 
-char **tokenize(char *opcom)
+char **tokenize(char *opcom, stack_t **stack)
 {
 	int i = 0, j = 0;
 	char *token = NULL,  *dupcom;
@@ -18,7 +18,7 @@ char **tokenize(char *opcom)
 	if (dupcom == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
-		free(opcom);
+		clear_all(stack);	
 		exit(EXIT_FAILURE);
 	}
 	strcpy(dupcom, opcom);
@@ -32,6 +32,8 @@ char **tokenize(char *opcom)
 	if (args == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
+		clear_all(stack);
+		free(dupcom);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(dupcom, delim);
@@ -41,6 +43,8 @@ char **tokenize(char *opcom)
 		if (args[j] == NULL)
 		{
 			fprintf(stderr, "Error: malloc failed\n");
+			clear_all(stack);
+			free(dupcom);
 			exit(EXIT_FAILURE);
 		}
 		strcpy(args[j], token);
@@ -63,35 +67,36 @@ char **tokenize(char *opcom)
 void opcheck(char *opcom, unsigned int line_c, stack_t **top_t)
 {
 	int i = 0;
-	char **args = NULL;
 	instruction_t list[] = {
 	{"pall", pall}, {"pint", pint},
 	{"pop", pop}, {"swap", swap},
 	{"add", add}, {"nop", nop},
 	{"sub", sub}, {"div", div_s},
 	{"mul", mul_s}, {"mod", mod_s},
+	{"pchar", pchar}, {"pstr", pstr},
+	{"rotl", rotl}, {"rotr", rotr},
 	{NULL, NULL}
 	};
 
-	args = tokenize(opcom);
-	if (args == NULL || args[0] == NULL)
+	montinf.args = tokenize(opcom, top_t);
+	if (montinf.args == NULL || montinf.args[0] == NULL)
 		return;
-	if (args[0][0] == '#')
+	if (montinf.args[0][0] == '#')
 		return;
-	if (!(strcmp("push", args[0])))
+	if (!(strcmp("push", montinf.args[0])))
 	{
-		push(top_t, args[1], line_c);
+		push(top_t, line_c);
 		return;
 	}
 	for (i = 0; list[i].opcode; i++)
 	{
-		if (!(strcmp(list[i].opcode, args[0])))
+		if (!(strcmp(list[i].opcode, montinf.args[0])))
 		{
 			list[i].f(top_t, line_c);
 			return;
 		}
 	}
-	fprintf(stderr, "L%u: unknown instruction %s\n", line_c, args[0]);
-	free(opcom);
+	fprintf(stderr, "L%u: unknown instruction %s\n", line_c, montinf.args[0]);
+	clear_all(top_t);
 	exit(EXIT_FAILURE);
 }
