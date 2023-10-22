@@ -3,6 +3,7 @@
 /**
  * tokenize - tokenize the opcode
  * @opcom: operation command
+ * @stack: ...
  *
  * Return: pointer to pointer of
  * tokenized command
@@ -11,29 +12,25 @@
 char **tokenize(char *opcom, stack_t **stack)
 {
 	int i = 0, j = 0;
-	char *token = NULL,  *dupcom;
-	char *delim = " \t\n$", **args;
+	char *token = NULL,  *dupcom, *delim = " \t\n$", **args;
 
 	dupcom = malloc(sizeof(char) * (strlen(opcom) + 1));
 	if (dupcom == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
-		clear_all(stack);	
+		clear_all(stack);
 		exit(EXIT_FAILURE);
 	}
 	strcpy(dupcom, opcom);
 	token = strtok(opcom, delim);
 	while (token)
-	{
 		token = strtok(NULL, delim);
-		i++;
-	}
+			i++;
 	args = malloc(sizeof(char *) * (i + 1));
 	if (args == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
-		clear_all(stack);
-		free(dupcom);
+		clear_all(stack), free(dupcom);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(dupcom, delim);
@@ -43,8 +40,7 @@ char **tokenize(char *opcom, stack_t **stack)
 		if (args[j] == NULL)
 		{
 			fprintf(stderr, "Error: malloc failed\n");
-			clear_all(stack);
-			free(dupcom);
+			clear_all(stack), free(dupcom);
 			exit(EXIT_FAILURE);
 		}
 		strcpy(args[j], token);
@@ -84,7 +80,6 @@ void opcheck(char *opcom, unsigned int line_c, stack_t **top_t)
 		free_vec(montinf.args);
 		return;
 	}
-
 	if (montinf.args[0][0] == '#')
 	{
 		free_vec(montinf.args);
@@ -106,6 +101,5 @@ void opcheck(char *opcom, unsigned int line_c, stack_t **top_t)
 		}
 	}
 	fprintf(stderr, "L%u: unknown instruction %s\n", line_c, montinf.args[0]);
-	clear_all(top_t);
-	exit(EXIT_FAILURE);
+	clear_all(top_t), exit(EXIT_FAILURE);
 }

@@ -2,7 +2,6 @@
 
 /**
  * push - pushes an element to the stack
- * @num: value to push
  * @line_c: script line
  * @top_t: top of the stack
  *

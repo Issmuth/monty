@@ -41,7 +41,7 @@ typedef struct instruction_s
 /**
  * struct monty_inf - info about the script
  * @file: opened script file
- * @command: line of command
+ * @opcom: line of command
  * @args: command list
  * @state: queue or stack determiner
  *

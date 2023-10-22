@@ -129,7 +129,7 @@ void rotr(stack_t **stack, unsigned int line_number)
 {
 	stack_t *iterator = *stack, *temp;
 	(void) line_number;
-	
+
 	if (!stack || !(*stack) || !((*stack)->next))
 		return;
 
