@@ -33,6 +33,8 @@ int main(int argc, char **argv)
 		opcheck(montinf.opcom, line_c, &top_t);
 		line_c++;
 	}
-	clear_all(&top_t);
+	free_stack(&top_t);
+	free(montinf.opcom);
+	fclose(montinf.file);
 	return (0);
 }

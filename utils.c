@@ -61,6 +61,12 @@ void free_stack(stack_t **stack)
 	}
 }
 
+/**
+ * clear_all - frees all allocated memory
+ * and closes open files
+ * @stack: stack to free
+ */
+
 void clear_all(stack_t **stack)
 {
 	if (montinf.opcom)

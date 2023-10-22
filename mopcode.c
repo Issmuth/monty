@@ -80,12 +80,20 @@ void opcheck(char *opcom, unsigned int line_c, stack_t **top_t)
 
 	montinf.args = tokenize(opcom, top_t);
 	if (montinf.args == NULL || montinf.args[0] == NULL)
+	{
+		free_vec(montinf.args);
 		return;
+	}
+
 	if (montinf.args[0][0] == '#')
+	{
+		free_vec(montinf.args);
 		return;
+	}
 	if (!(strcmp("push", montinf.args[0])))
 	{
 		push(top_t, line_c);
+		free_vec(montinf.args);
 		return;
 	}
 	for (i = 0; list[i].opcode; i++)
@@ -93,6 +101,7 @@ void opcheck(char *opcom, unsigned int line_c, stack_t **top_t)
 		if (!(strcmp(list[i].opcode, montinf.args[0])))
 		{
 			list[i].f(top_t, line_c);
+			free_vec(montinf.args);
 			return;
 		}
 	}
